@@ -39,7 +39,7 @@ const deleteBlogs = asyncHandler(async (req, res) => {
       res.status(200).json({ message: "Blog deleted successfully" });
     } catch (err) {
       console.error(err);
-      return res.status(500).json({ message: "Failed to delete post" });
+      return res.status(500).json({ message: "Failed to delete blog" });
     }
   } else {
     res.status(404).json({ message: "Blog not found" });
