@@ -24,10 +24,14 @@ const {
   createPost,
   getPosts,
   deletePost,
+  getNews,
+  getBlogs,
 } = require("../controllers/postsController");
 
 router.post("/", upload.single("image"), createPost);
 router.get("/", getPosts);
+router.get("/news", getNews);
+router.get("/blogs", getBlogs);
 router.delete("/", deletePost);
 
 module.exports = router;
