@@ -27,7 +27,7 @@ const {
 } = require("../controllers/newsController");
 
 router.post("/", upload.single("image"), createNews);
-router.get("/blogs", deleteNews);
-router.delete("/", getNews);
+router.get("/", getNews);
+router.delete("/", deleteNews);
 
 module.exports = router;

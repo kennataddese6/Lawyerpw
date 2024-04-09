@@ -27,7 +27,7 @@ const {
 } = require("../controllers/blogController");
 
 router.post("/", upload.single("image"), createBlog);
-router.get("/blogs", getBlogs);
+router.get("/", getBlogs);
 router.delete("/", deleteBlogs);
 
 module.exports = router;
