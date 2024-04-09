@@ -26,7 +26,7 @@ const {
   deletePost,
   getNews,
   getBlogs,
-} = require("../controllers/postsController");
+} = require("../controllers/blogController");
 
 router.post("/", upload.single("image"), createPost);
 router.get("/", getPosts);

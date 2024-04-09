@@ -1,17 +1,17 @@
 const mongoose = require("mongoose");
 
-const postSchema = mongoose.Schema(
+const newsSchema = mongoose.Schema(
   {
-    PostTitle: {
+    NewsTitle: {
       type: String,
     },
-    PostType: {
+    NewsType: {
       type: String,
     },
-    PostDescription: {
+    NewsDescription: {
       type: String,
     },
-    PostImage: {
+    NewsImage: {
       type: String,
     },
   },
@@ -20,4 +20,4 @@ const postSchema = mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("Post", postSchema);
+module.exports = mongoose.model("News", newsSchema);
