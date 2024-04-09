@@ -27,15 +27,29 @@ const getPosts = asyncHandler(async (req, res) => {
     res.status(400).json("Something went wrong");
   }
 });
+const getNews = asyncHandler(async (req, res) => {
+  const posts = await Post.find({ PostType: "News" });
+  if (posts) {
+    res.status(200).json(posts);
+  } else {
+    res.status(400).json("Something went wrong");
+  }
+});
+const getBlogs = asyncHandler(async (req, res) => {
+  const posts = await Post.find({ PostType: "Blog" });
+  if (posts) {
+    res.status(200).json(posts);
+  } else {
+    res.status(400).json("Something went wrong");
+  }
+});
 const deletePost = asyncHandler(async (req, res) => {
   const post = await Post.findById(req.body._id);
 
   if (post) {
     try {
-      // Delete the image file from the filesystem
       await unlinkAsync(post.PostImage);
 
-      // Delete the post from the database
       await Post.deleteOne({ _id: req.body._id });
       res.status(200).json({ message: "Post deleted successfully" });
     } catch (err) {
@@ -50,4 +64,6 @@ module.exports = {
   createPost,
   getPosts,
   deletePost,
+  getNews,
+  getBlogs,
 };
