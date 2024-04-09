@@ -12,9 +12,6 @@ const postSchema = mongoose.Schema(
       type: String,
     },
     PostImage: {
-      type: Number,
-    },
-    PhoneNumber: {
       type: String,
     },
   },
