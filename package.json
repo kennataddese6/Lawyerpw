@@ -1,0 +1,14 @@
+{
+  "name": "lawyerpw",
+  "version": "1.0.0",
+  "description": "This is the backend for a lawyer portfolio website",
+  "main": "server.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "Kenna",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
