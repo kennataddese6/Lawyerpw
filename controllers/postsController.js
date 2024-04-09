@@ -1,5 +1,7 @@
 const fs = require("fs");
 const path = require("path");
+const util = require("util");
+const unlinkAsync = util.promisify(fs.unlink);
 const Post = require("../models/postModel.js");
 const asyncHandler = require("express-async-handler");
 
@@ -25,25 +27,25 @@ const getPosts = asyncHandler(async (req, res) => {
     res.status(400).json("Something went wrong");
   }
 });
-
 const deletePost = asyncHandler(async (req, res) => {
-  const post = await Post.findById(req.params._id);
+  const post = await Post.findById(req.body._id);
 
   if (post) {
-    fs.unlink(path.join(__dirname, post.PostImage), (err) => {
-      if (err) {
-        console.error(err);
-        return res.status(500).json({ message: "Failed to delete image file" });
-      }
+    try {
+      // Delete the image file from the filesystem
+      await unlinkAsync(post.PostImage);
 
-      post.remove();
+      // Delete the post from the database
+      await Post.deleteOne({ _id: req.body._id });
       res.status(200).json({ message: "Post deleted successfully" });
-    });
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({ message: "Failed to delete post" });
+    }
   } else {
     res.status(404).json({ message: "Post not found" });
   }
 });
-
 module.exports = {
   createPost,
   getPosts,
