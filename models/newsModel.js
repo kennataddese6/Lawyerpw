@@ -5,7 +5,7 @@ const newsSchema = mongoose.Schema(
     NewsTitle: {
       type: String,
     },
-    NewsType: {
+    NewsCategory: {
       type: String,
     },
     NewsDescription: {
