@@ -15,4 +15,4 @@ console.log("Server is listening on port", port);
 
 app.listen(port, () => console.log(`Server started on port ${port}`));
 
-module.exports = app; // Export app to be used by tests
+module.exports = app; 
