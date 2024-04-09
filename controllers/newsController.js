@@ -8,7 +8,7 @@ const asyncHandler = require("express-async-handler");
 const createNews = asyncHandler(async (req, res) => {
   const news = await News.create({
     NewsTitle: req.body?.NewsTitle,
-    NewsType: req.body?.NewsType,
+    NewsCategory: req.body?.NewsCategory,
     NewsDescription: req.body?.NewsDescription,
     NewsImage: req.file?.path,
   });

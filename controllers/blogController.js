@@ -8,7 +8,7 @@ const asyncHandler = require("express-async-handler");
 const createBlog = asyncHandler(async (req, res) => {
   const blog = await Blog.create({
     BlogTitle: req.body?.BlogTitle,
-    BlogType: req.body?.BlogType,
+    BlogCategory: req.body?.BlogCategory,
     BlogDescription: req.body?.BlogDescription,
     BlogImage: req.file?.path,
   });
@@ -29,11 +29,11 @@ const getBlogs = asyncHandler(async (req, res) => {
 });
 
 const deleteBlogs = asyncHandler(async (req, res) => {
-  const Blog = await Blog.findById(req.body._id);
+  const blog = await Blog.findById(req.body._id);
 
-  if (Blog) {
+  if (blog) {
     try {
-      await unlinkAsync(Blog.BlogImage);
+      await unlinkAsync(blog.BlogImage);
 
       await Blog.deleteOne({ _id: req.body._id });
       res.status(200).json({ message: "Blog deleted successfully" });
