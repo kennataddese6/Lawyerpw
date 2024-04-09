@@ -11,8 +11,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 
+app.use("/api/post", require("./routes/postRoutes"));
+
 console.log("Server is listening on port", port);
 
 app.listen(port, () => console.log(`Server started on port ${port}`));
 
-module.exports = app; 
+module.exports = app;
