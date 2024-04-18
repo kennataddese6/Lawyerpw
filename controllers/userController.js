@@ -70,7 +70,7 @@ const changePassword = asyncHandler(async (req, res) => {
         req.body.newPassword,
         saltRounds
       );
-      user.Password = hashedPassword;
+      user.password = hashedPassword;
       await user.save();
       res.status(200).json("Password Changed Successfully.");
     } else {
@@ -88,7 +88,7 @@ const resetPassword = asyncHandler(async (req, res) => {
       process.env.RESET_PASSWORD,
       saltRounds
     );
-    user.Password = hashedPassword;
+    user.password = hashedPassword;
     await user.save();
     res.status(200).json("Password Changed Successfully.");
   } else {
