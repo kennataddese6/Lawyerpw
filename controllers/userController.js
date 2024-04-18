@@ -19,7 +19,7 @@ const registerUser = asyncHandler(async (req, res) => {
     throw new Error("User already exists");
   }
   const salt = await bcrypt.genSalt(10);
-  const hashedPassword = await bcrypt.hash(password, salt);
+  const hashedPassword = await bcrypt.hash(password.toString(), salt);
 
   const user = await User.create({
     name,
@@ -62,7 +62,7 @@ const changePassword = asyncHandler(async (req, res) => {
   if (user) {
     const passwordMatch = await bcrypt.compare(
       req.body.currentPassword,
-      user.Password
+      user.password
     );
     if (passwordMatch) {
       const saltRounds = 10;
