@@ -4,6 +4,7 @@ const util = require("util");
 const unlinkAsync = util.promisify(fs.unlink);
 const News = require("../models/newsModel.js");
 const asyncHandler = require("express-async-handler");
+const uploadDirectory = path.join(__dirname, "../uploads/");
 
 const createNews = asyncHandler(async (req, res) => {
   const news = await News.create({
@@ -33,7 +34,12 @@ const deleteNews = asyncHandler(async (req, res) => {
 
   if (news) {
     try {
-      await unlinkAsync(news.NewsImage);
+      const imageName = news.NewsImage.replace(
+        `${process.env.UPLOAD_PATH}`,
+        ""
+      );
+      const imagePath = path.join(uploadDirectory, imageName);
+      await unlinkAsync(imagePath);
 
       await News.deleteOne({ _id: req.body._id });
       res.status(200).json({ message: "News deleted successfully" });
