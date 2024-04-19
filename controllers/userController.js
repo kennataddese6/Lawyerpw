@@ -81,7 +81,7 @@ const changePassword = asyncHandler(async (req, res) => {
   }
 });
 const resetPassword = asyncHandler(async (req, res) => {
-  const user = await User.findOne({ Email: req.body.email });
+  const user = await User.findOne({ email: req.body.email });
   if (user) {
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(
@@ -90,7 +90,7 @@ const resetPassword = asyncHandler(async (req, res) => {
     );
     user.password = hashedPassword;
     await user.save();
-    res.status(200).json("Password Changed Successfully.");
+    res.status(200).json("Password resetted Successfully.");
   } else {
     res.status(404).json("User not found");
   }
