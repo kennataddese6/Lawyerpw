@@ -5,6 +5,7 @@ const unlinkAsync = util.promisify(fs.unlink);
 const Blog = require("../models/blogModel.js");
 const asyncHandler = require("express-async-handler");
 
+const uploadDirectory = path.join(__dirname, "../uploads/");
 const createBlog = asyncHandler(async (req, res) => {
   const blog = await Blog.create({
     BlogTitle: req.body?.BlogTitle,
@@ -33,8 +34,12 @@ const deleteBlogs = asyncHandler(async (req, res) => {
 
   if (blog) {
     try {
-      await unlinkAsync(blog.BlogImage);
-
+      const imageName = blog.BlogImage.replace(
+        `${process.env.UPLOAD_PATH}`,
+        ""
+      );
+      const imagePath = path.join(uploadDirectory, imageName);
+      await unlinkAsync(imagePath);
       await Blog.deleteOne({ _id: req.body._id });
       res.status(200).json({ message: "Blog deleted successfully" });
     } catch (err) {
