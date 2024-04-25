@@ -135,6 +135,14 @@ const sendEmail = asyncHandler(async (req, res) => {
     res.status(400).json(error.message);
   }
 });
+const verifyToken = asyncHandler(async (req, res) => {
+  const user = await User.findOne({ token: req.body.token });
+  if (user) {
+    res.status(200).json("User exists");
+  } else {
+    res.status(400).json("User not found");
+  }
+});
 
 module.exports = {
   loginUser,
@@ -142,4 +150,5 @@ module.exports = {
   changePassword,
   resetPassword,
   sendEmail,
+  verifyToken,
 };
