@@ -1,5 +1,8 @@
 const asyncHandler = require("express-async-handler");
 const User = require("../models/userModel");
+const crypto = require("crypto");
+const nodemailer = require("nodemailer");
+
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
@@ -95,9 +98,43 @@ const resetPassword = asyncHandler(async (req, res) => {
     res.status(404).json("User not found");
   }
 });
+
+const verificationToken = crypto.randomBytes(20).toString("hex");
+const sendEmail = asyncHandler(async (req, res) => {
+  const toEmail = req.body.email;
+
+  try {
+    const user = await User.findOne({ email: req.body.email });
+
+    const verificationLink = `http://localhost:3000/verify?token=${verificationToken}`;
+
+    const transporter = nodemailer.createTransport({
+      host: process.env.HOST_NAME,
+      port: process.env.TRANSPORTER_PORT,
+      secure: process.env.SECURE,
+      auth: {
+        user: process.env.USER_NAME,
+        pass: process.env.USER_PASSWORD,
+      },
+    });
+    const mailOptions = {
+      from: process.env.SENDER_MAIL,
+      to: toEmail,
+      subject: "Email Verification",
+      html: ` Dear ${toEmail},<br/><br/><a href="${verificationLink}" target="_blank">Click👆 this link to complete verification.</a> `,
+    };
+    await transporter.sendMail(mailOptions);
+    res.status(200).json("Email sent succesfully!");
+  } catch (error) {
+    console.log("Failed to send email", error);
+    res.status(400).json(error);
+  }
+});
+
 module.exports = {
   loginUser,
   registerUser,
   changePassword,
   resetPassword,
+  sendEmail,
 };
