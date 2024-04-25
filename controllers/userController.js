@@ -106,6 +106,10 @@ const sendEmail = asyncHandler(async (req, res) => {
   try {
     const user = await User.findOne({ email: req.body.email });
 
+    if (!user) {
+      throw new Error("User not Found");
+    }
+
     const verificationLink = `http://localhost:3000/verify?token=${verificationToken}`;
 
     const transporter = nodemailer.createTransport({
@@ -124,10 +128,11 @@ const sendEmail = asyncHandler(async (req, res) => {
       html: ` Dear ${toEmail},<br/><br/><a href="${verificationLink}" target="_blank">Click👆 this link to complete verification.</a> `,
     };
     await transporter.sendMail(mailOptions);
+    user.token = verificationToken;
+    await user.save();
     res.status(200).json("Email sent succesfully!");
   } catch (error) {
-    console.log("Failed to send email", error);
-    res.status(400).json(error);
+    res.status(400).json(error.message);
   }
 });
 
