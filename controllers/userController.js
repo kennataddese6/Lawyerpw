@@ -138,12 +138,25 @@ const sendEmail = asyncHandler(async (req, res) => {
 const verifyToken = asyncHandler(async (req, res) => {
   const user = await User.findOne({ token: req.body.token });
   if (user) {
-    res.status(200).json("User exists");
+    res.status(200).json(user);
   } else {
     res.status(400).json("User not found");
   }
 });
 
+const changeForgottenPassword = asyncHandler(async (req, res) => {
+  const saltRounds = 10;
+  const hashedPassword = await bcrypt.hash(req.body.newPassword, saltRounds);
+  const user = await User.findOneAndUpdate(
+    { _id: req.body._id },
+    { password: hashedPassword }
+  );
+  if (user) {
+    res.status(200).json("Password changed successfully");
+  } else {
+    res.status(400).json("Something went wrong");
+  }
+});
 module.exports = {
   loginUser,
   registerUser,
@@ -151,4 +164,5 @@ module.exports = {
   resetPassword,
   sendEmail,
   verifyToken,
+  changeForgottenPassword,
 };
