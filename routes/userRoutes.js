@@ -7,10 +7,12 @@ const {
   changePassword,
   resetPassword,
   sendEmail,
+  verifyToken,
 } = require("../controllers/userController");
 
 router.route("/").post(registerUser).put(protect, changePassword);
 router.route("/login").post(loginUser);
+router.route("/verify").post(verifyToken);
 router.route("/sendEmail").post(sendEmail);
 router.route("/reset").post(protect, resetPassword);
 module.exports = router;
