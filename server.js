@@ -30,6 +30,7 @@ app.use("/api/blog", require("./routes/blogRoutes"));
 app.use("/api/news", require("./routes/newsRoutes"));
 app.use("/api/blogCategory", require("./routes/blogCategoryRoutes"));
 app.use("/api/newsCategory", require("./routes/newsCategoryRoutes"));
+app.use("/api/review", require("./routes/reviewRoutes"));
 
 console.log(path.join(__dirname, "/uploads"));
 
